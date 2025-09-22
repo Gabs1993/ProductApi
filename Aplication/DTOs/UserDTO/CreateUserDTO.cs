@@ -10,5 +10,6 @@ namespace Application.DTOs.UserDTO
     {
         public string Email { get; set; } = string.Empty;
         public string PassWord { get; set; } = string.Empty;
+        public string Role { get; set; } = "user";
     }
 }

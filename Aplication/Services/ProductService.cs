@@ -13,11 +13,13 @@ namespace Application.Services
     public class ProductService
     {
         private readonly IProductRepository _repository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
-        public ProductService(IProductRepository repository, IMapper mapper)
+        public ProductService(IProductRepository repository, ICategoryRepository categoryRepository, IMapper mapper)
         {
             _repository = repository;
+            _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
 
@@ -35,15 +37,15 @@ namespace Application.Services
 
         public async Task<ReadProductDTO> CreateAsync(CreateProductDTO dto)
         {
-            
-            var category = await _repository.GetByIdAsync(dto.CategoryId);
+            var category = await _categoryRepository.GetByIdAsync(dto.CategoryId);
             if (category == null)
-            {
                 throw new ArgumentException("Invalid category. Register a category before creating a product.");
-            }
 
             var product = _mapper.Map<Product>(dto);
+            product.Category = category;
+
             await _repository.AddAsync(product);
+
             return _mapper.Map<ReadProductDTO>(product);
         }
 
