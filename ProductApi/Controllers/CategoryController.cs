@@ -1,9 +1,11 @@
 ﻿using Application.DTOs.CategoryDTO;
 using Application.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ProductApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class CategoryController : ControllerBase
